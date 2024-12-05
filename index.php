@@ -1,5 +1,5 @@
 <?php
-require_once '../ITCS333-project/Database/create_database.php';
+require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
 // Start the session only if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -64,21 +64,19 @@ if (session_status() === PHP_SESSION_NONE) {
             
             // Display navigation links for logged-in users
             echo '<nav>';
-            echo '<a href="homepage.php">Go to Homepage</a>';
-            echo '<a href="http://localhost/Project/ITCS333-project/UserProfileManagement/userprofile.php">Manage Profile</a>';
-            echo '<a href="logout.php">Logout</a>';
+            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/homepage.php">Go to Homepage</a>';
+            echo '<a href="http://localhost/ITCS-333-Course-Project/UserProfileManagement/userprofile.php">Manage Profile</a>';
+            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/logout.php">Logout</a>';
             
             // Check if the user is an admin
             if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
                 echo '<a href="admin_dashboard.php">Admin Dashboard</a>';
-            } else if (!isset($_SESSION['role'])) {
-                echo '<p>You are not logged in as an admin.</p>';
             }
             echo '</nav>';
         } else {
             // Display navigation links for guests
             echo '<nav>';
-            echo '<a href="view.php">Register / Login</a>';
+            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/hi.php">Register / Login</a>';
             echo '</nav>';
         }
         ?>
