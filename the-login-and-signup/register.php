@@ -23,7 +23,7 @@ if (isset($_POST['signUp'])) {
             $insertQuery = "INSERT INTO users (firstName, lastName, email, password) 
                             VALUES ('$firstName', '$lastName', '$email', '$password')";
                             
-            if ($db->query($insertQuery) === TRUE) {
+            if ($db->query($insertQuery) ) {
                 // Start a session and set session variables
                 session_start();
                 $_SESSION['email'] = $email;
