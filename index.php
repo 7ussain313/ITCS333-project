@@ -1,6 +1,8 @@
 <?php
-// Start the session at the beginning of the script
-session_start();
+// Start the session only if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <!DOCTYPE html>
@@ -13,8 +15,23 @@ session_start();
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
         }
-        a {
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        nav a {
             display: inline-block;
             margin: 10px;
             padding: 10px 20px;
@@ -23,24 +40,49 @@ session_start();
             text-decoration: none;
             border-radius: 5px;
         }
-        a:hover {
+        nav a:hover {
             background-color: #0056b3;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to the Room Booking System</h1>
-    <?php
-    // Check if the user is logged in or not
-    if (isset($_SESSION['email'])) {
-        // If logged in, show the homepage link
-        echo '<p>Hello, ' . htmlspecialchars($_SESSION['email']) . '</p>';
-        echo '<a href="homepage.php">Go to Homepage</a>';
-        echo '<a href="logout.php">Logout</a>';
-    } else {
-        // If not logged in, show the registration and login links
-        echo '<a href="view.php">Register / Login</a>';
-    }
-    ?>
+    <header>
+        <h1>Welcome to the Room Booking System</h1>
+    </header>
+    <main>
+        <?php
+        // Check if the user is logged in
+        if (isset($_SESSION['email'])) {
+            echo '<p>Hello, ' . htmlspecialchars($_SESSION['email']) . '!</p>';
+            
+            // Display navigation links for logged-in users
+            echo '<nav>';
+            echo '<a href="homepage.php">Go to Homepage</a>';
+            echo '<a href="logout.php">Logout</a>';
+            
+            // Check if the user is an admin
+            if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+                echo '<a href="admin_dashboard.php">Admin Dashboard</a>';
+            } else if (!isset($_SESSION['role'])) {
+                echo '<p>You are not logged in as an admin.</p>';
+            }
+            echo '</nav>';
+        } else {
+            // Display navigation links for guests
+            echo '<nav>';
+            echo '<a href="view.php">Register / Login</a>';
+            echo '</nav>';
+        }
+        ?>
+    </main>
+    <footer>
+        <p>&copy; <?php echo date('Y'); ?> IT College Room Booking System. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>

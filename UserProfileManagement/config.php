@@ -6,7 +6,7 @@ define('DB_PASS', '');
 define('DB_NAME', 'it_college');
 
 // Check if user is logged in
-function checkLogin() {
+function checkLogin(): void {
     if (!isset($_SESSION['user_id'])) {
         header("Location: /login.php");
         exit();

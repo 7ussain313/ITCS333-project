@@ -21,7 +21,7 @@ if (isset($_POST['signUp'])) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $insertQuery = $db->prepare("INSERT INTO Users (name, email, password) VALUES (?, ?, ?)");
             if ($insertQuery->execute(["$firstName $lastName", $email, $hashedPassword])) {
-                header("Location: homepage.php");
+                header("Location: index.php");
                 exit();
             } else {
                 echo "Error occurred during registration.";
@@ -42,7 +42,7 @@ if (isset($_POST['signIn'])) {
     if ($user && password_verify($password, $user['password'])) {
         session_start();
         $_SESSION['email'] = $user['email'];
-        header("Location: homepage.php");
+        header("Location: index.php");
         exit();
     } else {
         echo "Incorrect Email or Password.";
