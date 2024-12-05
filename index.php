@@ -1,4 +1,5 @@
 <?php
+require_once '../ITCS333-project/Database/create_database.php';
 // Start the session only if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -64,6 +65,7 @@ if (session_status() === PHP_SESSION_NONE) {
             // Display navigation links for logged-in users
             echo '<nav>';
             echo '<a href="homepage.php">Go to Homepage</a>';
+            echo '<a href="http://localhost/Project/ITCS333-project/UserProfileManagement/userprofile.php">Manage Profile</a>';
             echo '<a href="logout.php">Logout</a>';
             
             // Check if the user is an admin

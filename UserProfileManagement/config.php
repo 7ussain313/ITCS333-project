@@ -8,7 +8,7 @@ define('DB_NAME', 'it_college');
 // Check if user is logged in
 function checkLogin(): void {
     if (!isset($_SESSION['user_id'])) {
-        header("Location: /login.php");
+        header("Location: /Project/ITCS333-project/view.php");
         exit();
     }
 }

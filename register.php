@@ -1,5 +1,5 @@
 <?php 
-require_once('C:/xampp/htdocs/ITCS 333 Course Project/database/connection.php');
+require_once('../ITCS333-project/database/connection.php');
 
 if (isset($_POST['signUp'])) {
     $firstName = $_POST['fName'];
@@ -42,6 +42,7 @@ if (isset($_POST['signIn'])) {
     if ($user && password_verify($password, $user['password'])) {
         session_start();
         $_SESSION['email'] = $user['email'];
+        $_SESSION['user_id'] = $user['id'];
         header("Location: index.php");
         exit();
     } else {
