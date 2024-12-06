@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once 'config.php';
 require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
 
@@ -49,7 +48,7 @@ try {
             <form id="profileForm">
                 <div class="form-group">
                     <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" value="<?php echo htmlspecialchars($user['name']); ?>" required>
+                    <input type="text" id="fullName" name="fullName" value="<?php echo htmlspecialchars($user['firstName']); ?>" required>
                 </div>
 
                 <div class="form-group">
