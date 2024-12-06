@@ -1,7 +1,7 @@
 <?php
 require_once 'config.php';
 require_once 'db.php';
-require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
+require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
 
 checkLogin();
 

@@ -1,5 +1,7 @@
 <?php
-require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
+require_once('C:/xampp/htdocs/ITCS333-project/database/create_database.php');
+require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+
 session_start();  // Ensure session is started here
 ?>
 
@@ -154,18 +156,18 @@ session_start();  // Ensure session is started here
         if (isset($_SESSION['email'])) {
             echo '<p class="greeting">Hello, <span>' . htmlspecialchars($_SESSION['email']) . '</span>!</p>';
             echo '<nav>';
-            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/homepage.php">Go to Homepage</a>';
-            echo '<a href="http://localhost/ITCS-333-Course-Project/UserProfileManagement/userprofile.php">Manage Profile</a>';
-            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/logout.php">Logout</a>';
+            echo '<a href="http://localhost/ITCS333-project/the-login-and-signup/homepage.php">Go to Homepage</a>';
+            echo '<a href="http://localhost/ITCS333-project/UserProfileManagement/userprofile.php">Manage Profile</a>';
+            echo '<a href="http://localhost/ITCS333-project/the-login-and-signup/logout.php">Logout</a>';
 
             // Admin panel link
             if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-                echo '<a href="http://localhost/ITCS-333-Course-Project/AdminPanel/admin_dashboard.php">Admin Dashboard</a>';
+                echo '<a href="http://localhost/ITCS333-project/AdminPanel/admin_dashboard.php">Admin Dashboard</a>';
             }
             echo '</nav>';
         } else {
             echo '<nav>';
-            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/hi.php">Sign Up / Login</a>';
+            echo '<a href="http://localhost/ITCS333-project/the-login-and-signup/hi.php">Sign Up / Login</a>';
             echo '</nav>';
         }
         ?>

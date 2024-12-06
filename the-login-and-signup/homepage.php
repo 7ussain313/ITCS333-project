@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
+require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
 ?>
 
 <!DOCTYPE html>

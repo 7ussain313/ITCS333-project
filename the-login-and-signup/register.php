@@ -1,5 +1,5 @@
 <?php 
-require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
+require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
 
 
 if (isset($_POST['signUp'])) {
@@ -31,7 +31,7 @@ if (isset($_POST['signUp'])) {
                 $_SESSION['lastName'] = $lastName;
 
                 // Redirect to homepage
-                header("Location: http://localhost/ITCS-333-Course-Project/index.php");
+                header("Location: http://localhost/ITCS333-project/index.php");
                 exit();
             } else {
                 $errorInfo = $db->errorInfo();
@@ -61,7 +61,7 @@ if (isset($_POST['signIn'])) {
         $_SESSION['lastName'] = $row['lastName'];
         $_SESSION['role'] = $row['role'];
         $_SESSION['user_id'] = $row['id'];
-        header("Location: http://localhost/ITCS-333-Course-Project/index.php");
+        header("Location: http://localhost/ITCS333-project/index.php");
 
         exit();
     } else {
