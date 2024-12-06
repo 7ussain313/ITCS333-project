@@ -1,4 +1,5 @@
 <?php
+
 try {
     // Connect to MySQL server
     $db = new PDO('mysql:host=localhost;charset=utf8', 'root', '');
@@ -6,22 +7,33 @@ try {
 
     // Create database
     $db->exec("CREATE DATABASE IF NOT EXISTS it_college_booking");
-    echo "Database 'it_college_booking' created successfully.<br>";
+    
 
     // Connect to the newly created database
     $db->exec("USE it_college_booking");
 
     // SQL statements to create tables
     $sql = "
+    -- Create Departments table
+    CREATE TABLE IF NOT EXISTS Departments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL UNIQUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
     -- Create Users table
     CREATE TABLE IF NOT EXISTS Users (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
+        firstName VARCHAR(100) NOT NULL,
+        lastName VARCHAR(100) NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
+        phone_number VARCHAR(15),
+        department_id INT,
         role ENUM('user', 'admin') DEFAULT 'user',
         profile_picture VARCHAR(255),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (department_id) REFERENCES Departments(id) ON DELETE SET NULL
     );
 
     -- Create Rooms table
@@ -58,7 +70,7 @@ try {
 
     // Execute the SQL
     $db->exec($sql);
-    echo "Tables created successfully.<br>";
+   
 
     // Close the connection
     $db = null;

@@ -1,5 +1,5 @@
 <?php
-require_once('C:/xampp/htdocs/ITCS 333 Course Project/database/connection.php');
+require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
 session_start();
 
 if ($_SESSION['role'] != 'admin') {

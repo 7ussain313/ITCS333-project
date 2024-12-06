@@ -1,8 +1,6 @@
 <?php
-// Start the session only if not already started
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
+session_start();  // Ensure session is started here
 ?>
 
 <!DOCTYPE html>
@@ -12,77 +10,168 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Booking System</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+        /* Reset default margin and padding */
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
+            box-sizing: border-box;
         }
+
+        /* Dark background with a beautiful gradient */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Stylish and prominent header */
         header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px 0;
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 30px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
         }
+
+        header:hover {
+            transform: scale(1.05);
+        }
+
         header h1 {
-            margin: 0;
-            font-size: 2em;
+            font-size: 4em;
+            font-weight: 800;
+            color: #e74c3c;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
         }
-        nav {
-            margin: 20px 0;
+
+        /* Main content section with modern design */
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 25px;
+            padding: 50px;
+            max-width: 900px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
         }
+
+        main:hover {
+            transform: scale(1.05);
+        }
+
+        .greeting {
+            font-size: 1.6em;
+            color: #e74c3c;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
         nav a {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
+            background-color: #e74c3c;
+            color: #fff;
             text-decoration: none;
-            border-radius: 5px;
+            padding: 20px 35px;
+            margin: 15px;
+            font-size: 1.3em;
+            text-transform: uppercase;
+            font-weight: 600;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
         }
+
         nav a:hover {
-            background-color: #0056b3;
+            background-color: #c0392b;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
+
+        /* Footer with elegant text */
         footer {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
+            padding: 20px;
+            text-align: center;
+            color: #e74c3c;
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            margin-top: auto;
+            border-top: 1px solid #e74c3c;
+        }
+
+        footer p {
+            font-size: 1.2em;
+            font-weight: 300;
+            letter-spacing: 0.8px;
+        }
+
+        /* Smooth fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 3em;
+            }
+
+            main {
+                padding: 40px;
+            }
+
+            nav a {
+                padding: 18px 30px;
+                font-size: 1.2em;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to the Room Booking System</h1>
+        <h1>Room Booking System</h1>
     </header>
     <main>
         <?php
-        // Check if the user is logged in
         if (isset($_SESSION['email'])) {
-            echo '<p>Hello, ' . htmlspecialchars($_SESSION['email']) . '!</p>';
-            
-            // Display navigation links for logged-in users
+            echo '<p class="greeting">Hello, <span>' . htmlspecialchars($_SESSION['email']) . '</span>!</p>';
             echo '<nav>';
-            echo '<a href="homepage.php">Go to Homepage</a>';
-            echo '<a href="logout.php">Logout</a>';
-            
-            // Check if the user is an admin
+            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/homepage.php">Go to Homepage</a>';
+            echo '<a href="http://localhost/ITCS-333-Course-Project/UserProfileManagement/userprofile.php">Manage Profile</a>';
+            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/logout.php">Logout</a>';
+
+            // Admin panel link
             if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-                echo '<a href="admin_dashboard.php">Admin Dashboard</a>';
-            } else if (!isset($_SESSION['role'])) {
-                echo '<p>You are not logged in as an admin.</p>';
+                echo '<a href="http://localhost/ITCS-333-Course-Project/AdminPanel/admin_dashboard.php">Admin Dashboard</a>';
             }
             echo '</nav>';
         } else {
-            // Display navigation links for guests
             echo '<nav>';
-            echo '<a href="view.php">Register / Login</a>';
+            echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/hi.php">Sign Up / Login</a>';
             echo '</nav>';
         }
         ?>
     </main>
     <footer>
-        <p>&copy; <?php echo date('Y'); ?> IT College Room Booking System. All Rights Reserved.</p>
+        <p>&copy; <?php echo date('Y'); ?> Room Booking System - IT College. All rights reserved.</p>
     </footer>
 </body>
 </html>
