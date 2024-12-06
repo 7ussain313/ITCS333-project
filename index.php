@@ -1,9 +1,6 @@
 <?php
 require_once('C:/xampp/htdocs/ITCS-333-Course-Project/database/connection.php');
-// Start the session only if not already started
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+session_start();  // Ensure session is started here
 ?>
 
 <!DOCTYPE html>
@@ -58,23 +55,19 @@ if (session_status() === PHP_SESSION_NONE) {
     </header>
     <main>
         <?php
-        // Check if the user is logged in
         if (isset($_SESSION['email'])) {
             echo '<p>Hello, ' . htmlspecialchars($_SESSION['email']) . '!</p>';
-            
-            // Display navigation links for logged-in users
             echo '<nav>';
             echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/homepage.php">Go to Homepage</a>';
             echo '<a href="http://localhost/ITCS-333-Course-Project/UserProfileManagement/userprofile.php">Manage Profile</a>';
             echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/logout.php">Logout</a>';
-            
-            // Check if the user is an admin
+
+            // Check if the user has the 'role' session variable set and if it's 'admin'
             if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-                echo '<a href="admin_dashboard.php">Admin Dashboard</a>';
+                echo '<a href="http://localhost/ITCS-333-Course-Project/AdminPanel/admin_dashboard.php">Admin Dashboard</a>';
             }
             echo '</nav>';
         } else {
-            // Display navigation links for guests
             echo '<nav>';
             echo '<a href="http://localhost/ITCS-333-Course-Project/the-login-and-signup/hi.php">Register / Login</a>';
             echo '</nav>';

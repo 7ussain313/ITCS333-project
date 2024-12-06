@@ -59,6 +59,7 @@ if (isset($_POST['signIn'])) {
         $_SESSION['email'] = $row['email'];
         $_SESSION['firstName'] = $row['firstName'];
         $_SESSION['lastName'] = $row['lastName'];
+        $_SESSION['role'] = $row['role'];
         header("Location: http://localhost/ITCS-333-Course-Project/index.php");
 
         exit();
