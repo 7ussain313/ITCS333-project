@@ -5,12 +5,12 @@ require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
 checkLogin();
 
 // Get the logged-in user's ID from the session
-$userId = $_SESSION['user_id'];
+$userId = $_SESSION['email'];
 
 try {
     // Fetch user details from the database
-    $query = $db->prepare("SELECT * FROM users WHERE id = :id");
-    $query->bindParam(':id', $userId, PDO::PARAM_INT);
+    $query = $db->prepare("SELECT * FROM users WHERE email = :email");
+    $query->bindParam(':email', $userId, PDO::PARAM_INT);
     $query->execute();
     $user = $query->fetch(PDO::FETCH_ASSOC);
 
