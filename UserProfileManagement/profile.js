@@ -68,3 +68,12 @@ function showAlert(message, type) {
         alertDiv.remove();
     }, 3000);
 }
+
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const profileImage = document.getElementById('profileImage');
+        profileImage.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}

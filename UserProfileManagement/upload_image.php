@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture'])) 
         
         if (move_uploaded_file($file['tmp_name'], $targetPath)) {
             $db = new Database();
-            if ($db->updateProfilePicture($_SESSION['user_id'], $targetPath)) {
+            if ($db->updateProfilePicture($_SESSION['email'], $targetPath)) {
                 echo json_encode([
                     'success' => true,
                     'image_url' => $targetPath

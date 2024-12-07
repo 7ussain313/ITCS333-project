@@ -16,7 +16,7 @@ class Database {
     }
     
     public function getUser($userId) {
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

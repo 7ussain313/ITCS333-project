@@ -10,6 +10,8 @@ header('Content-Type: application/json');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db = new Database();
+
+        $userId = $_SESSION['email'];
         
         $data = [
             'fullName' => $_POST['fullName'],
@@ -18,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'department' => $_POST['department']
         ];
         
-        if ($db->updateUser($_SESSION['user_id'], $data)) {
+        if ($db->updateUser($userId, $data)) {
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to update profile']);

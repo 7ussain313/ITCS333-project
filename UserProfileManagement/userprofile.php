@@ -10,7 +10,7 @@ $userId = $_SESSION['email'];
 try {
     // Fetch user details from the database
     $query = $db->prepare("SELECT * FROM users WHERE email = :email");
-    $query->bindParam(':email', $userId, PDO::PARAM_INT);
+    $query->bindParam(':email', $userId, PDO::PARAM_STR);
     $query->execute();
     $user = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -27,7 +27,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Management - IT College</title>
-    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="profile.css">
 </head>
 <body>
     <div class="container">
@@ -75,6 +75,6 @@ try {
             </form>
         </div>
     </div>
-    <script src="js/profile.js"></script>
+    <script src="profile.js"></script>
 </body>
 </html>
