@@ -7,7 +7,6 @@ try {
 
     // Create database
     $db->exec("CREATE DATABASE IF NOT EXISTS it_college_booking");
-    
 
     // Connect to the newly created database
     $db->exec("USE it_college_booking");
@@ -20,6 +19,10 @@ try {
         name VARCHAR(100) NOT NULL UNIQUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    -- Insert initial department data
+    INSERT IGNORE INTO Departments (name)
+    VALUES ('Computer Science'), ('Information Systems'), ('Computer Engineering');
 
     -- Create Users table
     CREATE TABLE IF NOT EXISTS Users (
@@ -70,10 +73,9 @@ try {
 
     // Execute the SQL
     $db->exec($sql);
-   
 
-    // Close the connection
-    $db = null;
+    echo "Database and tables created successfully!";
+    $db = null; // Close the connection
 } catch (PDOException $ex) {
     echo "Error occurred! " . $ex->getMessage();
     exit;

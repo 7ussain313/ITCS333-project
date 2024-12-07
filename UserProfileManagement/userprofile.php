@@ -1,18 +1,20 @@
 <?php
 require_once 'config.php';
 require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+require_once('db.php');
 
 checkLogin();
 
 // Get the logged-in user's ID from the session
-$userId = $_SESSION['email'];
+if (!isset($_SESSION['user_id'])) {
+    die("Error: User not logged in.");
+}
+$userId = $_SESSION['user_id'];
 
 try {
     // Fetch user details from the database
-    $query = $db->prepare("SELECT * FROM users WHERE email = :email");
-    $query->bindParam(':email', $userId, PDO::PARAM_STR);
-    $query->execute();
-    $user = $query->fetch(PDO::FETCH_ASSOC);
+    $db = new Database();
+    $user = $db->getUser($userId);
 
     if (!$user) {
         throw new Exception("User not found.");
@@ -35,8 +37,7 @@ try {
             <div class="profile-header">
                 <div class="profile-picture">
                     <img id="profileImage" src="<?php echo $user['profile_picture'] ?? 'images/default-profile.svg'; ?>" alt="Profile Picture">
-                    <div class="picture-overlay" onclick="document.getElementById('profilePicInput').click()">
-                    </div>
+                    <div class="picture-overlay" onclick="document.getElementById('profilePicInput').click()"></div>
                     <input type="file" id="profilePicInput" hidden accept="image/*">
                 </div>
                 <div class="profile-info">
@@ -47,8 +48,13 @@ try {
 
             <form id="profileForm">
                 <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" name="fullName" value="<?php echo htmlspecialchars($user['firstName']); ?>" required>
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" value="<?php echo htmlspecialchars($user['firstName']); ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" value="<?php echo htmlspecialchars($user['lastName']); ?>" required>
                 </div>
 
                 <div class="form-group">
@@ -58,17 +64,22 @@ try {
 
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" value="<?php echo isset($user['phone']) ? htmlspecialchars($user['phone']) : ''; ?>">
+                    <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone_number']); ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="department">Department</label>
-                    <select id="department" name="department">
-                    <option value="">Select Department</option>
-                    <option value="cs" <?php echo isset($user['department']) && $user['department'] == 'cs' ? 'selected' : ''; ?>>Computer Science</option>
-                    <option value="is" <?php echo isset($user['department']) && $user['department'] == 'is' ? 'selected' : ''; ?>>Information Systems</option>
-                    <option value="ce" <?php echo isset($user['department']) && $user['department'] == 'ce' ? 'selected' : ''; ?>>Computer Engineering</option>
-                </select>
+                    <select id="department" name="department" required>
+                        <option value="">Select Department</option>
+                        <?php
+                        // Fetch departments dynamically
+                        $departmentsQuery = $db->getConnection()->query("SELECT id, name FROM Departments");
+                        while ($department = $departmentsQuery->fetch(PDO::FETCH_ASSOC)) {
+                            $selected = ($user['department_id'] == $department['id']) ? 'selected' : '';
+                            echo "<option value='{$department['id']}' {$selected}>{$department['name']}</option>";
+                        }
+                        ?>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn">Save Changes</button>

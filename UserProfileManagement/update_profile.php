@@ -11,19 +11,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db = new Database();
 
-        $userId = $_SESSION['email'];
-        
+        // Ensure user ID is available
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['success' => false, 'message' => 'User not logged in.']);
+            exit;
+        }
+
+        $userId = $_SESSION['user_id'];
         $data = [
-            'fullName' => $_POST['fullName'],
+            'firstName' => $_POST['firstName'],
+            'lastName' => $_POST['lastName'],
             'email' => $_POST['email'],
-            'phone' => $_POST['phone'],
-            'department' => $_POST['department']
+            'phone_number' => $_POST['phone'],
+            'department_id' => $_POST['department']
         ];
-        
+
         if ($db->updateUser($userId, $data)) {
             echo json_encode(['success' => true]);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to update profile']);
+            echo json_encode(['success' => false, 'message' => 'Failed to update profile.']);
         }
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
