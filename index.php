@@ -156,7 +156,7 @@ session_start();  // Ensure session is started here
         if (isset($_SESSION['email'])) {
             echo '<p class="greeting">Hello, <span>' . htmlspecialchars($_SESSION['email']) . '</span>!</p>';
             echo '<nav>';
-            echo '<a href="http://localhost/ITCS333-project/the-login-and-signup/homepage.php">Go to Homepage</a>';
+            echo '<a href="http://localhost/ITCS333-project/Room-3/index.php">Go to Homepage</a>';
             echo '<a href="http://localhost/ITCS333-project/UserProfileManagement/userprofile.php">Manage Profile</a>';
             echo '<a href="http://localhost/ITCS333-project/the-login-and-signup/logout.php">Logout</a>';
 
