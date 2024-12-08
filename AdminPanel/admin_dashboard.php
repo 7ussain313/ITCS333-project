@@ -21,7 +21,7 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Room Management</title>
-    <link rel="stylesheet" href="path/to/bootstrap.css"> <!-- Use PicoCSS or Bootstrap -->
+    <link rel="stylesheet" href="path/to/bootstrap.css"> <!-- Use Bootstrap -->
 </head>
 <body>
     <div class="container">
