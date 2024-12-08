@@ -1,35 +1,10 @@
 <?php
 // Database connection
-$host = "localhost";
-$username = "root";
-$password = "";
-$dbname = "RoomBookingSystem"; // Replace with your actual database name
+require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php'); 
 
 try {
-    // Establish connection using PDO
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Base query with join for room types and calculation of remaining slots
-    $query = "SELECT 
-                rooms.id, 
-                rooms.name, 
-                rooms.capacity, 
-                rooms.equipment, 
-                rooms.description, 
-                room_types.name AS room_type,
-                (SELECT COUNT(*) 
-                 FROM bookings 
-                 WHERE bookings.room_id = rooms.id 
-                 AND bookings.booking_date >= CURDATE()) AS booked_slots,
-                rooms.capacity - (
-                    SELECT COUNT(*) 
-                    FROM bookings 
-                    WHERE bookings.room_id = rooms.id 
-                    AND bookings.booking_date >= CURDATE()
-                ) AS remaining_slots
-              FROM rooms
-              LEFT JOIN room_types ON rooms.room_type_id = room_types.id";
+    // Base query to fetch data from Rooms
+    $query = "SELECT id, name, capacity, equipment, created_at FROM Rooms";
 
     // Initialize an array to store filters and parameters
     $conditions = [];
@@ -38,30 +13,34 @@ try {
     // Capacity filter
     if (isset($_GET['capacity']) && !empty($_GET['capacity'])) {
         $capacityFilter = $_GET['capacity'];
-        if ($capacityFilter == '1-5') {
-            $conditions[] = "rooms.capacity BETWEEN :minCapacity AND :maxCapacity";
-            $params[':minCapacity'] = 1;
-            $params[':maxCapacity'] = 5;
-        } elseif ($capacityFilter == '6-50') {
-            $conditions[] = "rooms.capacity BETWEEN :minCapacity AND :maxCapacity";
-            $params[':minCapacity'] = 6;
-            $params[':maxCapacity'] = 50;
-        } elseif ($capacityFilter == '51-150') {
-            $conditions[] = "rooms.capacity BETWEEN :minCapacity AND :maxCapacity";
-            $params[':minCapacity'] = 51;
-            $params[':maxCapacity'] = 150;
+        switch ($capacityFilter) {
+            case '1-5':
+                $conditions[] = "capacity BETWEEN :minCapacity AND :maxCapacity";
+                $params[':minCapacity'] = 1;
+                $params[':maxCapacity'] = 5;
+                break;
+            case '6-50':
+                $conditions[] = "capacity BETWEEN :minCapacity AND :maxCapacity";
+                $params[':minCapacity'] = 6;
+                $params[':maxCapacity'] = 50;
+                break;
+            case '51-150':
+                $conditions[] = "capacity BETWEEN :minCapacity AND :maxCapacity";
+                $params[':minCapacity'] = 51;
+                $params[':maxCapacity'] = 150;
+                break;
         }
     }
 
     // Equipment filter
     if (isset($_GET['equipment']) && !empty($_GET['equipment'])) {
-        $conditions[] = "FIND_IN_SET(:equipment, rooms.equipment)";
+        $conditions[] = "FIND_IN_SET(:equipment, equipment)";
         $params[':equipment'] = $_GET['equipment'];
     }
 
     // Search filter
     if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $conditions[] = "rooms.name LIKE :search";
+        $conditions[] = "name LIKE :search";
         $params[':search'] = '%' . $_GET['search'] . '%';
     }
 
@@ -71,7 +50,7 @@ try {
     }
 
     // Prepare and execute the query
-    $stmt = $pdo->prepare($query);
+    $stmt = $db->prepare($query);
     $stmt->execute($params);
 
     // Fetch all matching rooms
@@ -85,3 +64,4 @@ try {
     header('Content-Type: application/json', true, 500);
     echo json_encode(["error" => "Database error: " . $e->getMessage()]);
 }
+?>
