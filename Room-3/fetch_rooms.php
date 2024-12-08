@@ -10,11 +10,27 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Initialize the base query
-    $query = "SELECT rooms.id, rooms.name, rooms.capacity, rooms.equipment, rooms.description, room_types.name AS room_type
+    // Base query with join for room types and calculation of remaining slots
+    $query = "SELECT 
+                rooms.id, 
+                rooms.name, 
+                rooms.capacity, 
+                rooms.equipment, 
+                rooms.description, 
+                room_types.name AS room_type,
+                (SELECT COUNT(*) 
+                 FROM bookings 
+                 WHERE bookings.room_id = rooms.id 
+                 AND bookings.booking_date >= CURDATE()) AS booked_slots,
+                rooms.capacity - (
+                    SELECT COUNT(*) 
+                    FROM bookings 
+                    WHERE bookings.room_id = rooms.id 
+                    AND bookings.booking_date >= CURDATE()
+                ) AS remaining_slots
               FROM rooms
               LEFT JOIN room_types ON rooms.room_type_id = room_types.id";
-    
+
     // Initialize an array to store filters and parameters
     $conditions = [];
     $params = [];
@@ -26,13 +42,14 @@ try {
             $conditions[] = "rooms.capacity BETWEEN :minCapacity AND :maxCapacity";
             $params[':minCapacity'] = 1;
             $params[':maxCapacity'] = 5;
-        } elseif ($capacityFilter == '6-10') {
+        } elseif ($capacityFilter == '6-50') {
             $conditions[] = "rooms.capacity BETWEEN :minCapacity AND :maxCapacity";
             $params[':minCapacity'] = 6;
-            $params[':maxCapacity'] = 10;
-        } elseif ($capacityFilter == '11+') {
-            $conditions[] = "rooms.capacity >= :minCapacity";
-            $params[':minCapacity'] = 11;
+            $params[':maxCapacity'] = 50;
+        } elseif ($capacityFilter == '51-150') {
+            $conditions[] = "rooms.capacity BETWEEN :minCapacity AND :maxCapacity";
+            $params[':minCapacity'] = 51;
+            $params[':maxCapacity'] = 150;
         }
     }
 
@@ -68,6 +85,3 @@ try {
     header('Content-Type: application/json', true, 500);
     echo json_encode(["error" => "Database error: " . $e->getMessage()]);
 }
-
-
-?>
