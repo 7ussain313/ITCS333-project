@@ -4,7 +4,7 @@ require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
 // Check if the user is logged in as admin
 session_start();
 if ($_SESSION['role'] != 'admin') {
-    header("Location: login.php");
+    header("Location: hi.php");
     exit();
 }
 

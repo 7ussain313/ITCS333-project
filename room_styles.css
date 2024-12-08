@@ -1,0 +1,62 @@
+.room-info {
+    margin-bottom: 2rem;
+}
+
+.room-info h4 {
+    color: #333;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.timeslots {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.timeslot {
+    padding: 0.75rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timeslot.available {
+    background-color: #e7f5e7;
+    border: 1px solid #28a745;
+}
+
+.timeslot.booked {
+    background-color: #ffe5e5;
+    border: 1px solid #dc3545;
+}
+
+.status {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.available .status {
+    color: #28a745;
+}
+
+.booked .status {
+    color: #dc3545;
+}
+
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card-title {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .col-md-4 {
+        margin-top: 1rem;
+    }
+}
