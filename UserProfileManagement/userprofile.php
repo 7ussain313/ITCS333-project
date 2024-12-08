@@ -54,7 +54,8 @@ try {
 
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" value="<?php echo htmlspecialchars($user['lastName']); ?>" required>
+                    <input type="text" id="lastName" name="lastName" value="<?php echo htmlspecialchars($user['lastName'] ?? ''); ?>" required>
+
                 </div>
 
                 <div class="form-group">
@@ -64,7 +65,8 @@ try {
 
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone_number']); ?>">
+                    <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone_number'] ?? ''); ?>">
+
                 </div>
 
                 <div class="form-group">
