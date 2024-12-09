@@ -37,50 +37,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
+    <title>User Management - Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../theme.css">
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Montserrat', sans-serif;
-        }
         .user-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            margin-bottom: 20px;
-            border: none;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s;
         }
         .user-card:hover {
             transform: translateY(-5px);
         }
         .role-badge {
             padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
             font-weight: 500;
         }
         .role-badge.admin {
-            background-color: #FFC67D;
+            background-color: var(--primary-color);
             color: white;
         }
         .role-badge.user {
-            background-color: #8BC34A;
+            background-color: var(--secondary-color);
             color: white;
         }
-        .btn-update {
-            background: linear-gradient(135deg, #FFC67D 0%, #8BC34A 100%);
-            border: none;
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            transition: all 0.3s ease;
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
         }
-        .btn-update:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        .btn-edit {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .btn-delete {
+            background-color: #dc3545;
             color: white;
         }
     </style>
@@ -88,52 +83,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
 <body>
     <?php include 'admin_navbar.php'; ?>
 
-    <div class="container mt-4">
+    <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>User Management</h2>
-            <a href="admin_dashboard.php" class="btn btn-update">
-                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            <h1>User Management</h1>
+            <a href="add_user.php" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Add New User
             </a>
         </div>
 
         <?php if (isset($successMessage)): ?>
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?php echo $successMessage; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
         <?php if (isset($errorMessage)): ?>
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?php echo $errorMessage; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
         <div class="row">
             <?php foreach ($users as $user): ?>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-md-6 col-lg-4 mb-4">
                     <div class="user-card p-4">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="fas fa-user-circle fa-2x me-3" style="color: #FFC67D;"></i>
-                            <div>
-                                <h5 class="mb-1"><?php echo htmlspecialchars($user['firstName']); ?></h5>
-                                <span class="text-muted"><?php echo htmlspecialchars($user['email']); ?></span>
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-user-circle fa-2x me-3" style="color: #FFC67D;"></i>
+                                <div>
+                                    <h5 class="mb-1"><?php echo htmlspecialchars($user['firstName'] . ' ' . $user['lastName']); ?></h5>
+                                    <span class="text-muted"><?php echo htmlspecialchars($user['email']); ?></span>
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="mb-3">
-                            <span class="role-badge <?php echo $user['role'] === 'admin' ? 'admin' : 'user'; ?>">
+                            <span class="role-badge <?php echo $user['role']; ?>">
                                 <?php echo ucfirst(htmlspecialchars($user['role'])); ?>
                             </span>
                         </div>
-                        <form method="POST" class="mt-3">
-                            <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-                            <div class="input-group">
-                                <select name="role" class="form-select rounded-start">
-                                    <option value="user" <?php echo $user['role'] === 'user' ? 'selected' : ''; ?>>User</option>
-                                    <option value="admin" <?php echo $user['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
-                                </select>
-                                <button type="submit" class="btn btn-update">Update Role</button>
-                            </div>
-                        </form>
+                        
+                        <div class="user-info mb-3">
+                            <p class="mb-1">
+                                <i class="fas fa-phone-alt me-2"></i>
+                                <?php echo htmlspecialchars($user['phone_number'] ?? 'No phone number'); ?>
+                            </p>
+                            <p class="mb-1">
+                                <i class="fas fa-building me-2"></i>
+                                <?php echo htmlspecialchars($user['department_name'] ?? 'No department'); ?>
+                            </p>
+                        </div>
+
+                        <div class="user-actions">
+                            <a href="edit_user.php?id=<?php echo $user['id']; ?>" class="btn btn-edit">
+                                <i class="fas fa-edit me-1"></i> Edit
+                            </a>
+                            <?php if ($user['id'] != $_SESSION['user_id']): ?>
+                                <button class="btn btn-delete" onclick="confirmDelete(<?php echo $user['id']; ?>)">
+                                    <i class="fas fa-trash-alt me-1"></i> Delete
+                                </button>
+                            <?php endif; ?>
+                            <form method="POST" class="mt-3">
+                                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                <div class="input-group">
+                                    <select name="role" class="form-select rounded-start">
+                                        <option value="user" <?php echo $user['role'] === 'user' ? 'selected' : ''; ?>>User</option>
+                                        <option value="admin" <?php echo $user['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-update">Update Role</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -141,5 +163,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function confirmDelete(userId) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                fetch('delete_user.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'user_id=' + userId
+                })
+                .then(response => response.text())
+                .then(result => {
+                    if (result === 'success') {
+                        location.reload();
+                    } else {
+                        alert('Error deleting user');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error deleting user');
+                });
+            }
+        }
+    </script>
 </body>
 </html>
