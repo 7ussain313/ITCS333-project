@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                return response.json();
+                
             })
             .then((data) => {
                 console.log('Response Data:', data); // Log the response for debugging

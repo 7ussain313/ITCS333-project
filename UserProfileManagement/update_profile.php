@@ -4,7 +4,7 @@ require_once 'db.php';
 require_once('../database/connection.php');
 
 checkLogin();
-
+header("Location: ../UserProfileManagement/userprofile.php");
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
