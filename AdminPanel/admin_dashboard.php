@@ -113,6 +113,9 @@ $stats = getDashboardStats();
                         <a href="add_room.php" class="quick-action d-block">
                             <i class="fas fa-plus-circle me-2"></i> Add New Room
                         </a>
+                        <a href="view_room.php" class="quick-action d-block">
+                            <i class="fas fa-plus-circle me-2"></i> View Rooms
+                        </a>
                         <a href="user_management.php" class="quick-action d-block">
                             <i class="fas fa-user-cog me-2"></i> Manage Users
                         </a>

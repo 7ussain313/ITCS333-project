@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
         $name = $_POST['name'];
         $capacity = $_POST['capacity'];
         $equipment = $_POST['equipment'];
-        $image_path = $room['image_path'];
+        $image_url = $room['image_url'];
 
         // Handle file upload
         if (isset($_FILES['room_picture']) && $_FILES['room_picture']['error'] == 0) {
