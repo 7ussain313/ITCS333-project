@@ -48,6 +48,11 @@ $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 User Management
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ITCS333-project/index.php">
+                                home Page
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>

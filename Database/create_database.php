@@ -45,6 +45,7 @@ try {
         name VARCHAR(100) UNIQUE NOT NULL,
         capacity INT NOT NULL,
         equipment TEXT,
+         image_url VARCHAR(255) NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 

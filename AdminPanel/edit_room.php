@@ -113,15 +113,17 @@ if (isset($_GET['id'])) {
                     <label for="room_picture">Room Picture</label>
                     <input type="file" class="form-control" name="room_picture" accept="image/*">
                     <?php if (!empty($room['image_path'])): ?>
-                        <p class="mt-2">Current Picture: <img src="<?php echo $room['image_path']; ?>" alt="Room Picture" width="100"></p>
+                        <img src="<?php echo $room['image_path']; ?>" alt="Current Room Image" width="200" class="mt-2">
                     <?php endif; ?>
                 </div>
-                <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary">Update Room</button>
-                    <a href="admin_dashboard.php" class="btn btn-secondary">Cancel</a>
-                </div>
+                <button type="submit" class="btn btn-primary">Update Room</button>
             </div>
         </form>
+
+        <!-- Back to Dashboard Button -->
+        <div class="text-center mt-4">
+            <a href="admin_dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
     </div>
 </body>
 </html>

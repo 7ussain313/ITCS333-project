@@ -85,6 +85,11 @@ try {
 
                 <button type="submit" class="btn">Save Changes</button>
             </form>
+            <!-- Button to return to index.php -->
+            <form action="/ITCS333-project/index.php" method="get">
+                <button type="submit" class="btn">Return to Home</button>
+            </form>
+
         </div>
     </div>
     <script src="profile.js"></script>
