@@ -4,8 +4,6 @@ require_once 'db.php';
 require_once('../database/connection.php');
 
 checkLogin();
-header("Location: ../UserProfileManagement/userprofile.php");
-header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -13,8 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Ensure user ID is available
         if (!isset($_SESSION['user_id'])) {
-            // echo json_encode(['success' => false, 'message' => 'User not logged in.']);
-            exit;
+            die("User not logged in.");
         }
 
         $userId = $_SESSION['user_id'];
@@ -27,12 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         if ($db->updateUser($userId, $data)) {
-            // echo json_encode(['success' => true]);
+            // Set success message in session
+            $_SESSION['success'] = "Your information has been updated successfully.";
         } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to update profile.']);
+            // Set error message in session
+            $_SESSION['error'] = "Failed to update your profile. Please try again.";
         }
     } catch (Exception $e) {
-        // echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        $_SESSION['error'] = "An error occurred: " . $e->getMessage();
     }
+
+    // Redirect back to the user profile page
+    header("Location: ../UserProfileManagement/userprofile.php");
+    exit;
 }
 ?>
