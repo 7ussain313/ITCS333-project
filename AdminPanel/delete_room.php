@@ -3,7 +3,7 @@ require_once('../database/connection.php');
 session_start();
 
 if ($_SESSION['role'] != 'admin') {
-    header("Location: login.php");
+    header("Location: ../the-login-and-signup/hi.php");
     exit();
 }
 

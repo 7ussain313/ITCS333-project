@@ -4,7 +4,7 @@ require_once('../database/connection.php');
 // Check if the user is logged in as admin
 session_start();
 if ($_SESSION['role'] != 'admin') {
-    header("Location: hi.php");
+    header("Location: ../the-login-and-signup/hi.php");
     exit();
 }
 

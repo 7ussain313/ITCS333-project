@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Check if user is admin
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header('Location: /ITCS333-project/index.php');
+    header("Location: ../the-login-and-signup/hi.php");
     exit();
 }
 ?>

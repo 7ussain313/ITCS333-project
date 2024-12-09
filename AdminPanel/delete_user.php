@@ -4,7 +4,7 @@ session_start();
 
 // Check if the user is an admin
 if ($_SESSION['role'] != 'admin') {
-    echo 'not authorized';
+    header("Location: ../the-login-and-signup/hi.php");
     exit();
 }
 
