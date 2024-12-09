@@ -52,28 +52,28 @@ if (session_status() === PHP_SESSION_NONE) {
 
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/ITCS333-project/index.php">Room Booking System</a>
+        <a class="navbar-brand" href="../index.php">Room Booking System</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/ITCS333-project/index.php">Home</a>
+                    <a class="nav-link" href="../index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ITCS333-project/browse_rooms.php">Browse Rooms</a>
+                    <a class="nav-link" href="../browse_rooms.php">Browse Rooms</a>
                 </li>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ITCS333-project/UserProfileManagement/userprofile.php">My Profile</a>
+                        <a class="nav-link" href="../UserProfileManagement/userprofile.php">My Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ITCS333-project/manage_bookings.php">My Bookings</a>
+                        <a class="nav-link" href="../manage_bookings.php">My Bookings</a>
                     </li>
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/ITCS333-project/AdminPanel/admin_dashboard.php">Admin Dashboard</a>
+                            <a class="nav-link" href="../AdminPanel/admin_dashboard.php">Admin Dashboard</a>
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>
@@ -81,14 +81,14 @@ if (session_status() === PHP_SESSION_NONE) {
             <ul class="navbar-nav">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-coral ms-2 px-4" href="/ITCS333-project/the-login-and-signup/logout.php">Logout</a>
+                        <a class="nav-link btn btn-coral ms-2 px-4" href="../the-login-and-signup/logout.php">Logout</a>
                     </li>
                 <?php else: ?>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-coral ms-2 px-4" href="/ITCS333-project/the-login-and-signup/hi.php">Login</a>
+                        <a class="nav-link btn btn-coral ms-2 px-4" href="../the-login-and-signup/hi.php">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ITCS333-project/the-login-and-signup/signup.php">Sign Up</a>
+                        <a class="nav-link" href="../the-login-and-signup/signup.php">Sign Up</a>
                     </li>
                 <?php endif; ?>
             </ul>
