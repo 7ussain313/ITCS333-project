@@ -6,8 +6,12 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
+    background: linear-gradient(to right, #a7c5f2, #d3e7ff); /* Gradient background */
     color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .container {
@@ -21,10 +25,22 @@ body {
 .profile-card {
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Increased width for the profile card */
     width: 100%;
     padding: 20px;
+    animation: fadeIn 0.6s ease-out; /* Added fadeIn animation */
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .profile-header {
@@ -36,8 +52,8 @@ body {
 
 .profile-picture {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 90px; /* Slightly bigger profile picture */
+    height: 90px;
     border-radius: 50%;
     overflow: hidden;
     background-color: #e0e0e0;
@@ -82,27 +98,39 @@ label {
 
 input, select {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
+    padding: 10px 15px;
+    margin-top: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 14px;
+    background-color: #f4f7fc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #6a11cb; /* Focused input border color */
+    box-shadow: 0 2px 12px rgba(106, 17, 203, 0.5); /* Focused input shadow */
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #6a11cb;
+    background: linear-gradient(to right, #2575fc, #6a11cb);
     color: white;
     padding: 12px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
     width: 100%;
     margin-top: 20px;
+    transition: all 0.3s ease;
 }
 
 button:hover {
     background-color: #45a049;
+    transform: translateY(-2px);
 }
 
 .overlay-text {
