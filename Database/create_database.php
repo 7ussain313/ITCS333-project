@@ -32,11 +32,11 @@ try {
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
         phone_number VARCHAR(15),
-        department_id INT,
+        department_name VARCHAR(100),  -- Change from department_id to department_name
         role ENUM('user', 'admin') DEFAULT 'user',
         profile_picture VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (department_id) REFERENCES Departments(id) ON DELETE SET NULL
+        FOREIGN KEY (department_name) REFERENCES Departments(name) ON DELETE SET NULL  -- Adjusted foreign key to reference department_name
     );
 
     -- Create Rooms table
@@ -69,12 +69,12 @@ try {
         ip_address VARCHAR(45),
         FOREIGN KEY (user_id) REFERENCES Users(id)
     );
-    ";
+";
 
     // Execute the SQL
     $db->exec($sql);
 
-    // echo "Database and tables created successfully!";
+    echo "Database and tables created successfully!";
     $db = null; // Close the connection
 } catch (PDOException $ex) {
     echo "Error occurred! " . $ex->getMessage();
