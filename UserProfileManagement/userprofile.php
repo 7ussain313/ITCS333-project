@@ -116,7 +116,7 @@ try {
             <div class="profile-header">
                 <img src="<?php echo htmlspecialchars($user['profile_picture'] ?? 'default-profile.jpg'); ?>" alt="Profile Picture" class="profile-picture">
                 <h2 class="profile-name"><?php echo htmlspecialchars($user['firstName'] . ' ' . $user['lastName']); ?></h2>
-                <p class="profile-email"><?php echo htmlspecialchars($user['email']); ?></p>
+                <!-- <p class="profile-email"><?php echo htmlspecialchars($user['email']); ?></p> -->
             </div>
 
             <form class="profile-form" method="POST" action="update_profile.php">
