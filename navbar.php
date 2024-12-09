@@ -88,7 +88,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <a class="nav-link btn btn-coral ms-2 px-4" href="the-login-and-signup/hi.php">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="the-login-and-signup/signup.php">Sign Up</a>
+                        <a class="nav-link" href="the-login-and-signup/hi.php">Sign Up</a>
                     </li>
                 <?php endif; ?>
             </ul>
