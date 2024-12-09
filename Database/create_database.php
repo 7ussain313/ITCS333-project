@@ -20,7 +20,7 @@ try {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    -- Insert initial department data
+    -- Insert initial department data   
     INSERT IGNORE INTO Departments (name)
     VALUES ('Computer Science'), ('Information Systems'), ('Computer Engineering');
 
@@ -73,8 +73,6 @@ try {
 
     // Execute the SQL
     $db->exec($sql);
-
-    echo "Database and tables created successfully!";
     $db = null; // Close the connection
 } catch (PDOException $ex) {
     echo "Error occurred! " . $ex->getMessage();

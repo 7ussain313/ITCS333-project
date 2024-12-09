@@ -27,12 +27,45 @@ if (isset($_GET['id'])) {
         $name = $_POST['name'];
         $capacity = $_POST['capacity'];
         $equipment = $_POST['equipment'];
+        $image_path = $room['image_path'];
 
-        $query = "UPDATE Rooms SET name = :name, capacity = :capacity, equipment = :equipment WHERE id = :id";
+        // Handle file upload
+        if (isset($_FILES['room_picture']) && $_FILES['room_picture']['error'] == 0) {
+            $target_dir = "uploads/rooms/";
+            $target_file = $target_dir . basename($_FILES["room_picture"]["name"]);
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+            // Validate file type
+            $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+            if (in_array($imageFileType, $allowed_types)) {
+                // Create directory if it doesn't exist
+                if (!file_exists($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+
+                // Move uploaded file
+                if (move_uploaded_file($_FILES["room_picture"]["tmp_name"], $target_file)) {
+                    // Delete the old image if it exists
+                    if (!empty($room['image_path']) && file_exists($room['image_path'])) {
+                        unlink($room['image_path']);
+                    }
+                    $image_path = $target_file;
+                } else {
+                    echo "<div class='alert alert-danger mt-4'>Error uploading file.</div>";
+                    exit();
+                }
+            } else {
+                echo "<div class='alert alert-danger mt-4'>Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.</div>";
+                exit();
+            }
+        }
+
+        $query = "UPDATE Rooms SET name = :name, capacity = :capacity, equipment = :equipment, image_path = :image_path WHERE id = :id";
         $stmt = $db->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':capacity', $capacity);
         $stmt->bindParam(':equipment', $equipment);
+        $stmt->bindParam(':image_path', $image_path);
         $stmt->bindParam(':id', $roomId);
 
         if ($stmt->execute()) {
@@ -62,7 +95,7 @@ if (isset($_GET['id'])) {
         <h1 class="text-center mb-4">Edit Room Details</h1>
 
         <!-- Form for editing room -->
-        <form action="edit_room.php?id=<?php echo $roomId; ?>" method="POST">
+        <form action="edit_room.php?id=<?php echo $roomId; ?>" method="POST" enctype="multipart/form-data">
             <div class="card p-4 shadow-sm">
                 <div class="form-group mb-3">
                     <label for="name">Room Name</label>
@@ -75,6 +108,13 @@ if (isset($_GET['id'])) {
                 <div class="form-group mb-3">
                     <label for="equipment">Equipment</label>
                     <textarea class="form-control" name="equipment" required><?php echo htmlspecialchars($room['equipment']); ?></textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="room_picture">Room Picture</label>
+                    <input type="file" class="form-control" name="room_picture" accept="image/*">
+                    <?php if (!empty($room['image_path'])): ?>
+                        <p class="mt-2">Current Picture: <img src="<?php echo $room['image_path']; ?>" alt="Room Picture" width="100"></p>
+                    <?php endif; ?>
                 </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">Update Room</button>
