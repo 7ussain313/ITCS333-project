@@ -22,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'firstName' => $_POST['firstName'],
             'lastName' => $_POST['lastName'],
             'email' => $_POST['email'],
-            'phone_number' => $_POST['phone'],
-            'department_id' => $_POST['department']
+            'phone_number' => $_POST['phone_number'],
+            'department_name' => $_POST['department_name']
         ];
 
         if ($db->updateUser($userId, $data)) {

@@ -33,7 +33,6 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../common_styles.css">
-    <link rel="stylesheet" href="profile.css">
     <style>
         .profile-card {
             background: var(--white);
@@ -140,8 +139,6 @@ try {
     </style>
 </head>
 <body>
-   
-
     <div class="container">
         <div class="profile-card">
             <div class="profile-header">
@@ -219,10 +216,14 @@ try {
                 <div class="text-center">
                     <button type="submit" class="btn btn-update">Update Profile</button>
                 </div>
+                <div style="height: 20px;"></div>
             </form>
-        </div>
+            <div class="text-center">
+     <a href="../index.php" class="btn btn-primary">Home Page</a>
     </div>
-
+        </div>
+        
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('profilePicInput').addEventListener('change', function(e) {
