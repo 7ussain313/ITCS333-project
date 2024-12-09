@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+require_once('../database/connection.php');
 ?>
 
 <!DOCTYPE html>

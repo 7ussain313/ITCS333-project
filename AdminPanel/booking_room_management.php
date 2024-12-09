@@ -1,5 +1,5 @@
 <?php
-require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+require_once('../database/connection.php');
 
 // Check if the user is logged in as admin
 session_start();

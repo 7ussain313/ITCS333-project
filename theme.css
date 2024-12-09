@@ -1,0 +1,147 @@
+:root {
+    --primary-color: #FF7B5F;  /* Coral color */
+    --secondary-color: #4169E1;  /* Royal Blue */
+    --background-color: #EEF2FF;  /* Light blue background */
+    --text-dark: #333333;
+    --text-light: #FFFFFF;
+    --card-background: #FFFFFF;
+    --input-background: #F8F9FE;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    --border-radius: 20px;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.card {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: none;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: var(--secondary-color);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    color: var(--text-light);
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(65, 105, 225, 0.3);
+}
+
+.btn-coral {
+    background: var(--primary-color);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    color: var(--text-light);
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-coral:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 123, 95, 0.3);
+}
+
+.form-control {
+    background-color: var(--input-background);
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 2px var(--primary-color);
+    background-color: var(--input-background);
+}
+
+.navbar {
+    background-color: var(--card-background);
+    box-shadow: var(--shadow);
+}
+
+.navbar-brand {
+    color: var(--primary-color) !important;
+    font-weight: 700;
+}
+
+.nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+.section-title {
+    color: var(--text-dark);
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.feature-card {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    transition: transform 0.3s ease;
+    height: 100%;
+    border: none;
+    box-shadow: var(--shadow);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.coral-section {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 4rem 0;
+    border-radius: var(--border-radius);
+    margin: 2rem 0;
+}
+
+.table {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.badge-coral {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.badge-blue {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+}

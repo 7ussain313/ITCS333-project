@@ -1,5 +1,5 @@
 <?php
-require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+require_once('../database/connection.php');
 session_start();
 
 if ($_SESSION['role'] != 'admin') {
@@ -60,12 +60,12 @@ if (isset($_GET['id'])) {
             }
         }
 
-        $query = "UPDATE Rooms SET name = :name, capacity = :capacity, equipment = :equipment, image_path = :image_path WHERE id = :id";
+        $query = "UPDATE Rooms SET name = :name, capacity = :capacity, equipment = :equipment, image_url = :image_url WHERE id = :id";
         $stmt = $db->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':capacity', $capacity);
         $stmt->bindParam(':equipment', $equipment);
-        $stmt->bindParam(':image_path', $image_path);
+        $stmt->bindParam(':image_url', $image_path);
         $stmt->bindParam(':id', $roomId);
 
         if ($stmt->execute()) {
@@ -112,8 +112,8 @@ if (isset($_GET['id'])) {
                 <div class="form-group mb-3">
                     <label for="room_picture">Room Picture</label>
                     <input type="file" class="form-control" name="room_picture" accept="image/*">
-                    <?php if (!empty($room['image_path'])): ?>
-                        <img src="<?php echo $room['image_path']; ?>" alt="Current Room Image" width="200" class="mt-2">
+                    <?php if (!empty($room['image_url'])): ?>
+                        <img src="<?php echo $room['image_url']; ?>" alt="Current Room Image" width="200" class="mt-2">
                     <?php endif; ?>
                 </div>
                 <button type="submit" class="btn btn-primary">Update Room</button>

@@ -1,7 +1,7 @@
 <?php
 require_once 'config.php';
 require_once 'db.php';
-require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+require_once('../database/connection.php');
 
 checkLogin();
 
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Ensure user ID is available
         if (!isset($_SESSION['user_id'])) {
-            echo json_encode(['success' => false, 'message' => 'User not logged in.']);
+            // echo json_encode(['success' => false, 'message' => 'User not logged in.']);
             exit;
         }
 
@@ -27,12 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         if ($db->updateUser($userId, $data)) {
-            echo json_encode(['success' => true]);
+            // echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to update profile.']);
         }
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        // echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
 }
 ?>

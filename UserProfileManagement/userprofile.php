@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+require_once('../database/connection.php');
 require_once('db.php');
 
 checkLogin();
@@ -15,6 +15,7 @@ try {
     // Fetch user details from the database
     $db = new Database();
     $user = $db->getUser($userId);
+    $departments = $db->getDepartments();
 
     if (!$user) {
         throw new Exception("User not found.");
@@ -29,69 +30,141 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile Management - IT College</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../common_styles.css">
     <link rel="stylesheet" href="profile.css">
+    <style>
+        .profile-card {
+            background: var(--white);
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-email {
+            color: var(--text-muted);
+        }
+        
+        .profile-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.25);
+        }
+        
+        .btn-update {
+            background: linear-gradient(135deg, #FFC67D 0%, #8BC34A 100%);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 500;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-update:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+    </style>
 </head>
 <body>
+   
+
     <div class="container">
         <div class="profile-card">
             <div class="profile-header">
-                <div class="profile-picture">
-                    <img id="profileImage" src="<?php echo $user['profile_picture'] ?? 'images/default-profile.svg'; ?>" alt="Profile Picture">
-                    <div class="picture-overlay" onclick="document.getElementById('profilePicInput').click()"></div>
-                    <input type="file" id="profilePicInput" hidden accept="image/*">
-                </div>
-                <div class="profile-info">
-                    <h1>Profile Management</h1>
-                    <p>Update your personal information and preferences</p>
-                </div>
+                <img src="<?php echo htmlspecialchars($user['profile_picture'] ?? 'default-profile.jpg'); ?>" alt="Profile Picture" class="profile-picture">
+                <h2 class="profile-name"><?php echo htmlspecialchars($user['firstName'] . ' ' . $user['lastName']); ?></h2>
+                <p class="profile-email"><?php echo htmlspecialchars($user['email']); ?></p>
             </div>
 
-            <form id="profileForm">
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" value="<?php echo htmlspecialchars($user['firstName']); ?>" required>
+            <form class="profile-form" method="POST" action="update_profile.php">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" name="firstName" value="<?php echo htmlspecialchars($user['firstName']); ?>" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="lastName" value="<?php echo htmlspecialchars($user['lastName']); ?>" required>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" value="<?php echo htmlspecialchars($user['lastName'] ?? ''); ?>" required>
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" name="phone_number" value="<?php echo htmlspecialchars($user['phone_number'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone_number'] ?? ''); ?>" required>
-
-                </div>
-
-                <div class="form-group">
-                    <label for="department">Department</label>
-                    <select id="department" name="department" required>
+                    <label class="form-label">Department</label>
+                    <select class="form-control" name="department_name">
                         <option value="">Select Department</option>
-                        <?php
-                        // Fetch departments dynamically
-                        $departmentsQuery = $db->getConnection()->query("SELECT id, name FROM Departments");
-                        while ($department = $departmentsQuery->fetch(PDO::FETCH_ASSOC)) {
-                            $selected = ($user['department_id'] == $department['id']) ? 'selected' : '';
-                            echo "<option value='{$department['id']}' {$selected}>{$department['name']}</option>";
-                        }
-                        ?>
+                        <?php foreach ($departments as $department): ?>
+                            <option value="<?php echo htmlspecialchars($department['name']); ?>" 
+                                    <?php echo ($user['department_name'] === $department['name']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($department['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
-                <button type="submit" class="btn">Save Changes</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-update">Update Profile</button>
+                </div>
             </form>
-            <!-- Button to return to index.php -->
-            <form action="/ITCS333-project/index.php" method="get">
-                <button type="submit" class="btn">Return to Home</button>
-            </form>
-
         </div>
     </div>
-    <script src="profile.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

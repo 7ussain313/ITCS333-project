@@ -119,6 +119,7 @@ $weekBookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
+                        <img src="AdminPanel/<?php echo $room['image_url']; ?>" class="card-img-top" alt="Room Image">
                         <h2 class="card-title"><?php echo htmlspecialchars($room['name']); ?></h2>
                         <div class="room-info mt-4">
                             <h4>Room Details</h4>

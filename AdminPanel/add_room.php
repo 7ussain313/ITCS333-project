@@ -1,5 +1,5 @@
 <?php
-require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+require_once('../database/connection.php');
 session_start();
 
 // Check if the user is an admin
@@ -43,12 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Insert room data into the database
-    $query = "INSERT INTO Rooms (name, capacity, equipment, image_path) VALUES (:name, :capacity, :equipment, :image_path)";
+    $query = "INSERT INTO Rooms (name, capacity, equipment, image_url) VALUES (:name, :capacity, :equipment, :image_url)";
     $stmt = $db->prepare($query);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':capacity', $capacity);
     $stmt->bindParam(':equipment', $equipment);
-    $stmt->bindParam(':image_path', $image_path);
+    $stmt->bindParam(':image_url', $image_path);
 
     if ($stmt->execute()) {
         echo "<div class='alert alert-success mt-4'>Room added successfully!</div>";

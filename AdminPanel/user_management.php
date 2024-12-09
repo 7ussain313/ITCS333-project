@@ -1,16 +1,15 @@
 <?php
-require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
+require_once('../database/connection.php');
 session_start();
 
 // Check if the user is an admin
-if ($_SESSION['role'] != 'admin') {
-    header("Location: login.php");
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: /ITCS333-project/the-login-and-signup/hi.php");
     exit();
 }
 
-// Fetch the list of users along with their department names
-$query = "SELECT Users.*, Departments.name AS department_name FROM Users
-          LEFT JOIN Departments ON Users.department_id = Departments.id";
+// Fetch the list of users
+$query = "SELECT * FROM Users";
 $stmt = $db->prepare($query);
 $stmt->execute();
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -26,12 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
     $updateStmt->bindParam(':id', $userId);
 
     if ($updateStmt->execute()) {
-        echo "<div class='alert alert-success'>User role updated successfully!</div>";
+        $successMessage = "User role updated successfully!";
     } else {
-        echo "<div class='alert alert-danger'>Error updating user role.</div>";
+        $errorMessage = "Error updating user role.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -40,90 +38,108 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['role'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .user-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            border: none;
+        }
+        .user-card:hover {
+            transform: translateY(-5px);
+        }
+        .role-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .role-badge.admin {
+            background-color: #FFC67D;
+            color: white;
+        }
+        .role-badge.user {
+            background-color: #8BC34A;
+            color: white;
+        }
+        .btn-update {
+            background: linear-gradient(135deg, #FFC67D 0%, #8BC34A 100%);
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">User Management</h1>
+    <?php include 'admin_navbar.php'; ?>
 
-        <!-- Button to go back to dashboard -->
-        <a href="admin_dashboard.php" class="btn btn-primary mb-3">Back to Dashboard</a>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>User Management</h2>
+            <a href="admin_dashboard.php" class="btn btn-update">
+                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
 
-       
+        <?php if (isset($successMessage)): ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo $successMessage; ?>
+            </div>
+        <?php endif; ?>
 
-        <!-- Table to display users -->
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Role</th>
-                    <th>Department</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="user-table">
-                <?php foreach ($users as $user) : ?>
-                    <tr id="user-<?php echo $user['id']; ?>">
-                        <td><?php echo htmlspecialchars($user['firstName'] ?? 'N/A'); ?></td>
-                        <td><?php echo htmlspecialchars($user['lastName'] ?? 'N/A'); ?></td>
-                        <td><?php echo htmlspecialchars($user['email'] ?? 'N/A'); ?></td>
-                        <td><?php echo htmlspecialchars($user['phone_number'] ?? 'N/A'); ?></td>
-                        <td>
-                            <form action="user_management.php" method="POST" style="display:inline;">
-                                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-                                <select name="role" class="form-control form-control-sm" onchange="this.form.submit()">
-                                    <option value="user" <?php echo $user['role'] == 'user' ? 'selected' : ''; ?>>User</option>
-                                    <option value="admin" <?php echo $user['role'] == 'admin' ? 'selected' : ''; ?>>Admin</option>
+        <?php if (isset($errorMessage)): ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $errorMessage; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="row">
+            <?php foreach ($users as $user): ?>
+                <div class="col-md-6 col-lg-4">
+                    <div class="user-card p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-user-circle fa-2x me-3" style="color: #FFC67D;"></i>
+                            <div>
+                                <h5 class="mb-1"><?php echo htmlspecialchars($user['firstName']); ?></h5>
+                                <span class="text-muted"><?php echo htmlspecialchars($user['email']); ?></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <span class="role-badge <?php echo $user['role'] === 'admin' ? 'admin' : 'user'; ?>">
+                                <?php echo ucfirst(htmlspecialchars($user['role'])); ?>
+                            </span>
+                        </div>
+                        <form method="POST" class="mt-3">
+                            <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                            <div class="input-group">
+                                <select name="role" class="form-select rounded-start">
+                                    <option value="user" <?php echo $user['role'] === 'user' ? 'selected' : ''; ?>>User</option>
+                                    <option value="admin" <?php echo $user['role'] === 'admin' ? 'selected' : ''; ?>>Admin</option>
                                 </select>
-                            </form>
-                        </td>
-                        <td><?php echo htmlspecialchars($user['department_name'] ?? 'N/A'); ?></td>
-                        <td>
-                            <a href="edit_user.php?id=<?php echo $user['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                            <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="<?php echo $user['id']; ?>">Delete</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-
-         <!-- Button to add a new user -->
-         <a href="add_user.php" class="btn btn-success mb-3">Add New User</a>
-
+                                <button type="submit" class="btn btn-update">Update Role</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 
-    <!-- Include Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        $(document).ready(function(){
-            // Handle delete button click
-            $(".delete-btn").click(function(){
-                var userId = $(this).data("id");
-
-                // Confirm the action
-                if (confirm("Are you sure you want to delete this user?")) {
-                    // Make AJAX request to delete the user
-                    $.ajax({
-                        url: 'delete_user.php',
-                        method: 'POST',
-                        data: { user_id: userId },
-                        success: function(response) {
-                            if (response == 'success') {
-                                // Remove the row from the table
-                                $("#user-" + userId).remove();
-                            } else {
-                                alert('Error deleting user.');
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

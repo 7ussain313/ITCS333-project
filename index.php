@@ -1,8 +1,7 @@
 <?php
-require_once('C:/xampp/htdocs/ITCS333-project/database/create_database.php');
-require_once('C:/xampp/htdocs/ITCS333-project/database/connection.php');
-
-session_start();  // Ensure session is started here
+require_once('database/create_database.php');
+require_once('database/connection.php');
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -11,169 +10,104 @@ session_start();  // Ensure session is started here
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room Booking System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="theme.css">
     <style>
-        /* Reset default margin and padding */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Dark background with a beautiful gradient */
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: #fff;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        /* Stylish and prominent header */
-        header {
+        .hero-section {
+            background-color: var(--card-background);
+            padding: 4rem 0;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
             text-align: center;
-            padding: 60px 20px;
-            margin-bottom: 30px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 15px;
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
-            transition: all 0.3s ease;
         }
 
-        header:hover {
-            transform: scale(1.05);
-        }
-
-        header h1 {
-            font-size: 4em;
-            font-weight: 800;
-            color: #e74c3c;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Main content section with modern design */
-        main {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 25px;
-            padding: 50px;
-            max-width: 900px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-            transition: all 0.3s ease;
-        }
-
-        main:hover {
-            transform: scale(1.05);
-        }
-
-        .greeting {
-            font-size: 1.6em;
-            color: #e74c3c;
-            margin-bottom: 30px;
-            text-transform: uppercase;
+        .hero-title {
+            color: var(--text-dark);
+            font-size: 3rem;
             font-weight: 700;
-            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
         }
 
-        nav a {
-            background-color: #e74c3c;
-            color: #fff;
-            text-decoration: none;
-            padding: 20px 35px;
-            margin: 15px;
-            font-size: 1.3em;
-            text-transform: uppercase;
-            font-weight: 600;
+        .hero-subtitle {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .welcome-message {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 1rem 2rem;
             border-radius: 50px;
             display: inline-block;
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            margin-bottom: 2rem;
+            font-weight: 500;
         }
 
-        nav a:hover {
-            background-color: #c0392b;
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        .features-section {
+            padding: 4rem 0;
         }
 
-        /* Footer with elegant text */
-        footer {
-            padding: 20px;
-            text-align: center;
-            color: #e74c3c;
-            background-color: rgba(0, 0, 0, 0.8);
-            width: 100%;
-            margin-top: auto;
-            border-top: 1px solid #e74c3c;
-        }
-
-        footer p {
-            font-size: 1.2em;
-            font-weight: 300;
-            letter-spacing: 0.8px;
-        }
-
-        /* Smooth fade-in animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Responsive design for smaller screens */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 3em;
+            .hero-title {
+                font-size: 2rem;
             }
-
-            main {
-                padding: 40px;
-            }
-
-            nav a {
-                padding: 18px 30px;
-                font-size: 1.2em;
+            
+            .hero-subtitle {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Room Booking System</h1>
-    </header>
-    <main>
-        <?php
-        if (isset($_SESSION['email'])) {
-            echo '<p class="greeting">Hello, <span>' . htmlspecialchars($_SESSION['email']) . '</span>!</p>';
-            echo '<nav>';
-            echo '<a href="http://localhost/ITCS333-project/browse_rooms.php">book rooms</a>';
-            echo '<a href="http://localhost/ITCS333-project/UserProfileManagement/userprofile.php">Manage Profile</a>';
-            echo '<a href="http://localhost/ITCS333-project/the-login-and-signup/logout.php">Logout</a>';
+    <?php include 'navbar.php'; ?>
 
-            // Admin panel link
-            if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-                echo '<a href="http://localhost/ITCS333-project/AdminPanel/admin_dashboard.php">Admin Dashboard</a>';
-            }
-            echo '</nav>';
-        } else {
-            echo '<nav>';
-            echo '<a href="http://localhost/ITCS333-project/the-login-and-signup/hi.php">Sign Up / Login</a>';
-            echo '</nav>';
-        }
-        ?>
-    </main>
-    <footer>
-        <p>&copy; <?php echo date('Y'); ?> Room Booking System - IT College. All rights reserved.</p>
-    </footer>
+    <div class="container">
+        <section class="hero-section">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <div class="welcome-message">
+                    Welcome back, <?php echo htmlspecialchars($_SESSION['firstName'] ?? 'User'); ?>!
+                </div>
+            <?php endif; ?>
+            <h1 class="hero-title">Room Booking System</h1>
+            <p class="hero-subtitle">Book your perfect room with ease and efficiency</p>
+            <?php if (!isset($_SESSION['user_id'])): ?>
+                <a href="the-login-and-signup/hi.php" class="btn btn-coral">Get Started</a>
+            <?php else: ?>
+                <a href="browse_rooms.php" class="btn btn-coral">Browse Rooms</a>
+            <?php endif; ?>
+        </section>
+
+        <section class="features-section">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-calendar-check feature-icon"></i>
+                        <h3 class="h4 mb-3">Easy Booking</h3>
+                        <p class="text-muted">Book your room in just a few clicks with our intuitive booking system</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-clock feature-icon"></i>
+                        <h3 class="h4 mb-3">Real-time Availability</h3>
+                        <p class="text-muted">Check room availability in real-time and secure your preferred time slot</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <i class="fas fa-user-circle feature-icon"></i>
+                        <h3 class="h4 mb-3">User Profiles</h3>
+                        <p class="text-muted">Manage your bookings and preferences through your personal profile</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

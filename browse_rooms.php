@@ -60,6 +60,7 @@ try {
             <div class="col">
                 <div class="card h-100">
                     <div class="card-body">
+                        <img src="AdminPanel/<?php echo $room['image_url']; ?>" class="card-img-top" alt="Room Image">
                         <h5 class="card-title"><?php echo htmlspecialchars($room['name']); ?></h5>
                         <p class="card-text">
                             <strong>Capacity:</strong> <?php echo htmlspecialchars($room['capacity']); ?> people

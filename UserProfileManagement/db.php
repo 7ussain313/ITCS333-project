@@ -43,7 +43,7 @@ class Database {
                     lastName = :lastName, 
                     email = :email, 
                     phone_number = :phone_number, 
-                    department_id = :department_id 
+                    department_name = :department_name 
                     WHERE id = :userId";
 
         $stmt = $this->conn->prepare($query);
@@ -52,7 +52,7 @@ class Database {
             ':lastName' => $data['lastName'],
             ':email' => $data['email'],
             ':phone_number' => $data['phone_number'],
-            ':department_id' => $data['department_id'],
+            ':department_name' => $data['department_name'],
             ':userId' => $userId
         ]);
 
@@ -82,7 +82,5 @@ class Database {
             return false;
         }
     }
-    
-    
 }
 ?>
