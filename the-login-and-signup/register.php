@@ -24,11 +24,18 @@ if (isset($_POST['signUp'])) {
                             VALUES ('$firstName', '$lastName', '$email', '$password')";
                             
             if ($db->query($insertQuery) ) {
+             // Get the newly inserted user's ID and role
+                $selectQuery = "SELECT id, role FROM users WHERE email = '$email'";
+                $result = $db->query($selectQuery);
+                $user = $result->fetch(PDO::FETCH_ASSOC);
+                
                 // Start a session and set session variables
                 session_start();
                 $_SESSION['email'] = $email;
                 $_SESSION['firstName'] = $firstName;
                 $_SESSION['lastName'] = $lastName;
+                $_SESSION['role'] = $user['role']; 
+                $_SESSION['user_id'] = $user['id'];     
 
                 // Redirect to homepage
                 header("Location: http://localhost/ITCS333-project/index.php");
