@@ -48,12 +48,43 @@ try {
             margin-bottom: 2rem;
         }
         
-        .profile-picture {
+        .profile-picture-container {
+            position: relative;
             width: 150px;
             height: 150px;
+            margin: 0 auto 1rem;
+            cursor: pointer;
+        }
+        
+        .profile-picture {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 1rem;
+        }
+        
+        .profile-picture-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .profile-picture-container:hover .profile-picture-overlay {
+            opacity: 1;
+        }
+        
+        .profile-picture-overlay i {
+            color: white;
+            font-size: 1.5rem;
         }
         
         .profile-name {
@@ -114,9 +145,36 @@ try {
     <div class="container">
         <div class="profile-card">
             <div class="profile-header">
-                <img src="<?php echo htmlspecialchars($user['profile_picture'] ?? 'default-profile.jpg'); ?>" alt="Profile Picture" class="profile-picture">
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger">
+                        <?php 
+                        echo $_SESSION['error'];
+                        unset($_SESSION['error']);
+                        ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div class="alert alert-success">
+                        <?php 
+                        echo $_SESSION['success'];
+                        unset($_SESSION['success']);
+                        ?>
+                    </div>
+                <?php endif; ?>
+
+                <form action="upload_profile_pic.php" method="POST" enctype="multipart/form-data" id="profilePicForm">
+                    <div class="profile-picture-container" onclick="document.getElementById('profilePicInput').click();">
+                        <img src="<?php echo htmlspecialchars($user['profile_picture'] ?? 'default-profile.jpg'); ?>" alt="Profile Picture" class="profile-picture" id="profilePicPreview">
+                        <div class="profile-picture-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <input type="file" name="profile_picture" id="profilePicInput" style="display: none;" accept="image/*">
+                    </div>
+                </form>
+
                 <h2 class="profile-name"><?php echo htmlspecialchars($user['firstName'] . ' ' . $user['lastName']); ?></h2>
-                <!-- <p class="profile-email"><?php echo htmlspecialchars($user['email']); ?></p> -->
+
             </div>
 
             <form class="profile-form" method="POST" action="update_profile.php">
@@ -166,5 +224,34 @@ try {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('profilePicInput').addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file');
+                    return;
+                }
+                
+                // Validate file size (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size should be less than 5MB');
+                    return;
+                }
+
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePicPreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+
+                // Submit form
+                document.getElementById('profilePicForm').submit();
+            }
+        });
+    </script>
 </body>
 </html>

@@ -50,7 +50,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 }
 
 .btn-admin {
-    background-color: white;
+    background-color: orange;
     color: #FFC67D !important;
     border: none;
     padding: 0.5rem 1.5rem !important;
@@ -87,19 +87,19 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         <div class="collapse navbar-collapse" id="adminNavbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/ITCS333-project/AdminPanel/admin_dashboard.php">Dashboard</a>
+                    <a class="nav-link" href="admin_dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ITCS333-project/AdminPanel/user_management.php">Users</a>
+                    <a class="nav-link" href="user_management.php">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ITCS333-project/AdminPanel/booking_room_management.php">Rooms</a>
+                    <a class="nav-link" href="booking_room_management.php">Rooms</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ITCS333-project/AdminPanel/add_room.php">Add Room</a>
+                    <a class="nav-link" href="add_room.php">Add Room</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-admin ms-2" href="/ITCS333-project/index.php">Back to Site</a>
+                    <a class="nav-link btn btn-admin ms-2" href="../index.php">Back to Site</a>
                 </li>
             </ul>
         </div>
