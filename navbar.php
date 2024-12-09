@@ -4,6 +4,36 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 
+<style>
+    .navbar-nav .nav-link.clicked {
+        color: #9A9A9AFF ;
+    }
+
+    .navbar-nav .nav-link:visited {
+        color: #838383FF ;
+    }
+
+    .navbar {
+        padding-top: 1rem; 
+        padding-bottom: 1rem;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 20px;
+        color: #FFFFFFFF ;
+    }
+
+    .navbar-brand {
+        font-size: 34px; 
+        color: #FFFFFFFF ;
+    }
+
+    .navbar-nav .nav-link:hover {
+        color: #FFFFFFFF ;
+        background-color: transparent ; 
+    }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
         <a class="navbar-brand" href="index.php">Room Booking System</a>
@@ -49,3 +79,16 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
     </div>
 </nav>
+
+<script>
+    // Add the click class to links when they are clicked
+    const links = document.querySelectorAll('.navbar-nav .nav-link');
+    links.forEach(link => {
+        link.addEventListener('click', function() {
+            // Remove click class from all links
+            links.forEach(l => l.classList.remove('clicked'));
+            // Add click class to the clicked link
+            this.classList.add('clicked');
+        });
+    });
+</script>
